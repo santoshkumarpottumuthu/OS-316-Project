@@ -10,7 +10,7 @@ using namespace std;
 	int p_id; 		// enter process id's
 	int arr_time; 	// arrival time of the process
 	int burst_time; // burst_time 
-	int priority; //priority
+	int priorty; //priorty
 	int fin_time; //finish time of the project
 	int rem_time; //time remaining for the process
 	int wait_time; //waiting time
@@ -28,7 +28,7 @@ struct processes{
 	int p_id; 		// enter process id's
 	int arr_time; 	// arrival time of the process
 	int burst_time; // burst_time 
-	int priority; //priority
+	int priorty; //priorty
 	int fin_time; //finish time of the project
 	int rem_time; //time remaining for the process
 	int wait_time; //waiting time
@@ -52,30 +52,30 @@ const arrsort(const pd&a ,const pd&b)
 		return a.arr_time;
 	else if(a.arr_time > b.arr_time)
 		return b.arr_time;
-	if(a.priority < b.priority)
-		return a.priority;
-	else if(a.priority > b.priority)
-		return b.priority;
+	if(a.priorty < b.priorty)
+		return a.priorty;
+	else if(a.priorty > b.priorty)
+		return b.priorty;
 	if(a.p_id < b.p_id)
 		return a.p_id;
 
 	return b.p_id;
 }
 void arrsortcheck(vector <pd> asort)
-{cout<<"p_id:"<<"\t arr_time \t"<<"burst_time \t"<<"priority"<<endl;
+{cout<<"p_id:"<<"\t arr_time \t"<<"burst_time \t"<<"priorty"<<endl;
 	for(unsigned int m=0 ;m<asort.size();m++ )
 	{
 		
-		cout<<asort[m].p_id<<"\t"<<asort[m].arr_time<<"\t\t"<<asort[m].burst_time<<"\t\t"<<asort[m].priority<<endl;;
+		cout<<asort[m].p_id<<"\t"<<asort[m].arr_time<<"\t\t"<<asort[m].burst_time<<"\t\t"<<asort[m].priorty<<endl;;
 	}
 }
-struct compare
+struct comp
 {
 	bool operator()(const pd& a ,const pd&b)
 	{
-		if( a.priority > b.priority )
+		if( a.priorty > b.priorty )
 			return true;
-		else if( a.priority < b.priority )
+		else if( a.priorty < b.priorty )
 			return false;
 		if(a.p_id > b.p_id )
 			return true;
@@ -103,7 +103,7 @@ int main()
 	int p_id;
 	int arr_time;
 	int burst_time;
-	int priority;
+	int priorty;
 	int total_exec_time =0;
 	int total_t_a_time;
 	int total_wait_time;
@@ -119,7 +119,7 @@ int main()
 	}
 	
 	cout<<"The Sequence of Inputs is: \n";
-	cout<<" 1. Enter the Process id: \t 2.Arrival time \t 3.Burst_time \t 4.Priority   \n";
+	cout<<" 1. Enter the Process id: \t 2.Arrival time \t 3.Burst_time \t 4.priorty   \n";
 	cout<<"Enter all the details of one Process then only go with the next process \n";
 	process p[n];
 	cout<<"Do not enter any two processes with same number \n"<<endl;
@@ -140,23 +140,23 @@ int main()
 		{
 			cout<<"should not be less than zero:"<<endl;
 			cin>>burst_time;		}
-		cin>>priority;
-			if(priority <0 )
+		cin>>priorty;
+			if(priorty <0 )
 		{
 			cout<<"should not be less than zero:"<<endl;
-			cin>>priority;		}
+			cin>>priorty;		}
 	
 		temp.num = m+1;
 		temp.arr_time = arr_time;
 		temp.burst_time = burst_time;
 		temp.rem_time = burst_time;
 		temp.p_id = p_id;
-		temp.priority = priority;
+		temp.priorty = priorty;
 		p_data.push_back(temp);
 		p[m].p_id = p_id;
 		p[m].arr_time = arr_time;
 		p[m].burst_time = burst_time;
-		p[m].priority =priority; 
+		p[m].priorty =priorty; 
 		p[m].rem_time = burst_time;
 	}
 	sort(p_data.begin(),p_data.end(),arrsort);
@@ -164,10 +164,10 @@ int main()
 	int timequant;
 	cin>>timequant;
 	cout<<"Given Inputs:"<<endl;
-	cout<<"p_id"<<"\t"<<"arr_time"<<"\t"<<"burst_time"<<"\t"<<"priority"<<endl;
+	cout<<"p_id"<<"\t"<<"arr_time"<<"\t"<<"burst_time"<<"\t"<<"priorty"<<endl;
 	for(m=0;m<n;m++)
 	{
-			cout<<p[m].p_id<<"\t"<<p[m].arr_time<<"\t\t"<<p[m].burst_time<<"\t\t"<<p[m].priority<<endl;   //here p_data is assigned to corresponding obj.
+			cout<<p[m].p_id<<"\t"<<p[m].arr_time<<"\t\t"<<p[m].burst_time<<"\t\t"<<p[m].priorty<<endl;   //here p_data is assigned to corresponding obj.
 	}
 	
 	cout<<"After Arrival Sort:"<<endl;
@@ -186,20 +186,20 @@ int main()
 
     	}
     }
-    int ghantt[total_exec_time] = {0};
+    int ghantt[total_exec_time] = {0}; //ghantt array is created for ghatt chart
     for( m= 0; m< total_exec_time; m++ )
 	{
 		ghantt[m]=-1;
 	}
-	priority_queue < pd ,vector<processes> ,compare> fpq;
+	priority_queue < pd ,vector<processes> ,comp> fpq;
 	queue< pd > rrq;
 	int cpu__state =0;
 	curr.p_id = -3;
-	curr.priority = 99999;
-	int time_quant =timequant;
+	curr.priorty = 99999;
+	int time_slice =timequant;
 	for ( time = 0; time< total_exec_time; time++ )
 	{
-		/**Insert the process with same Arrival time in Priority Queue**/
+		/**Insert the process with same Arrival time in priorty Queue**/
 		for( int j = 0; j< n ; j++ )
 		{
 			if(time == p_data[j].arr_time)
@@ -217,7 +217,7 @@ int main()
 				cpu__state = 1;
 				fpq_process = 1;
 				fpq.pop();
-				time_quant = timequant; 
+				time_slice = timequant; 
 			}
 			else if(!rrq.empty())
 			{
@@ -225,19 +225,19 @@ int main()
 				cpu__state = 1;
 				rrq_process = 1;
 				rrq.pop();
-				time_quant = timequant;
+				time_slice = timequant;
 			}
 		}
 		else if(cpu__state == 1) //If cpu has any procss
 		{
 			if(fpq_process == 1 && (!fpq.empty()))
 			{
-				if(fpq.top().priority < curr.priority ) //If new process has high priority
+				if(fpq.top().priorty < curr.priorty ) //If new process has high priorty
 				{
 					rrq.push(curr); //push curr in RQ
 					curr = fpq.top();
 					fpq.pop();
-					time_quant = timequant; 
+					time_slice = timequant; 
 				}
 			}
 			else if(rrq_process == 1 && (!fpq.empty())) //If process is from RQ and new process come  in PQ
@@ -247,7 +247,7 @@ int main()
 				fpq.pop();
 				rrq_process = 0;
 				fpq_process = 1;
-				time_quant = timequant ;
+				time_slice = timequant ;
 			}
 			
 
@@ -257,22 +257,22 @@ int main()
 		if(curr.p_id != -3) // Process Execution
 		{
 			curr.rem_time--;
-			time_quant--;
+			time_slice--;
 			ghantt[time] = curr.p_id;
-			if(curr.rem_time == 0) //If process Finish
+			if(curr.rem_time == 0) //If process is finished then all of these will turned to 0
 			{
 				cpu__state = 0 ;
-				time_quant = 4 ;
+				time_slice = 4 ;
 				curr.p_id = -3;
-				curr.priority = 99999;
+				curr.priorty = 99999;
 				rrq_process = 0;
 				fpq_process = 0;
 			}
-			else if(time_quant == 0 ) //If time Qunatum of a curr running process Finish
+			else if(time_slice == 0 ) //If timeslice of a current running process is  Finished then again it'll go back in to Q2.
 			{
 				rrq.push(curr);
 				curr.p_id = -3;
-				curr.priority = 99999;
+				curr.priorty = 99999;
 				rrq_process = 0;
 				fpq_process = 0;
 				cpu__state=0;
@@ -327,11 +327,11 @@ int main()
 	cout<<"-------------------------------Final Output-----------------------------------------"<<endl;
 	cout<<"------------------------------------------------------------------------------------"<<endl;
 	
-	cout<<"p_id\t"<<"arr_time\t"<<"burst_time\t"<<"priority\t"<<"fin_time\t"<<"respo_time\t"<<"turnaroundt\t"<<"wait_time"<<endl;
+	cout<<"p_id\t"<<"arr_time\t"<<"burst_time\t"<<"priorty\t"<<"fin_time\t"<<"respo_time\t"<<"turnaroundt\t"<<"wait_time"<<endl;
 	
 	for(int m=0;m<n;m++)
 	{
-		cout<<"P"<<p_data[m].p_id<<"\t"<<p_data[m].arr_time<<"\t\t"<<p_data[m].burst_time<<"\t\t"<<p_data[m].priority<<"\t\t"<<p_data[m].fin_time<<"\t\t"<<p_data[m].respo_time<<"\t\t"<<p_data[m].t_a_time<<"\t\t"<<p_data[m].wait_time<<endl;
+		cout<<"P"<<p_data[m].p_id<<"\t"<<p_data[m].arr_time<<"\t\t"<<p_data[m].burst_time<<"\t\t"<<p_data[m].priorty<<"\t\t"<<p_data[m].fin_time<<"\t\t"<<p_data[m].respo_time<<"\t\t"<<p_data[m].t_a_time<<"\t\t"<<p_data[m].wait_time<<endl;
 		
 }
 //calculating the avg_t_a_time and avg_wait_time
