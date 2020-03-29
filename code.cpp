@@ -112,14 +112,40 @@ int main()
 	cout<<"\t\t\t\tEnter the Total Number of Processes. \n";
 	
 	cin>>n;
+	if(n == 0 || n<0)
+	{	
+		cout<<"There should be atleast one Process \n";
+		exit(0);
+	}
+	
 	cout<<"The Sequence of Inputs is: \n";
 	cout<<" 1. Enter the Process id: \t 2.Arrival time \t 3.Burst_time \t 4.Priority   \n";
 	cout<<"Enter all the details of one Process then only go with the next process \n";
 	process p[n];
-	
+	cout<<"Do not enter any two processes with same number \n"<<endl;
 	for(m=0;m<n;m++)
-	{
-		cin>>p_id>>arr_time>>burst_time>>priority;
+	{	
+		cin>>p_id;
+			if(arr_time <0 )
+		{
+			cout<<"should not be less than zero:"<<endl;
+			cin>>p_id;		}
+		cin>>arr_time;
+			if(arr_time <0 )
+		{
+			cout<<"should not be less than zero:"<<endl;
+			cin>>arr_time;		}
+		cin>>burst_time;
+			if(burst_time <0 )
+		{
+			cout<<"should not be less than zero:"<<endl;
+			cin>>burst_time;		}
+		cin>>priority;
+			if(priority <0 )
+		{
+			cout<<"should not be less than zero:"<<endl;
+			cin>>priority;		}
+	
 		temp.num = m+1;
 		temp.arr_time = arr_time;
 		temp.burst_time = burst_time;
